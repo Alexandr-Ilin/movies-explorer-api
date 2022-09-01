@@ -16,13 +16,13 @@ const createUser = (req, res, next) => {
   const {
     email, password, name,
   } = req.body;
+
   bcrypt
     .hash(password, 10)
     .then((hash) => User.create({
       email, password: hash, name,
     }))
     .then((data) => {
-      console.log(process.env.NODE_ENV);
       const token = jwt.sign({ _id: data._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
       res
         .status(CREATED_STATUS)
@@ -50,12 +50,9 @@ const createUser = (req, res, next) => {
 };
 
 const login = (req, res, next) => {
-  console.log('login');
   const { email, password } = req.body;
-  console.log(req.body, 'req');
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      console.log(user, 'user');
       const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
       res
         .status(OK_STATUS)
@@ -77,6 +74,7 @@ const getMe = (req, res, next) => {
       next(err);
     });
 };
+
 
 const updateUserProfile = (req, res, next) => {
   const { email, name } = req.body;
