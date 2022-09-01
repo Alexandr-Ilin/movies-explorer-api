@@ -18,7 +18,6 @@ app.use(router);
 app.use((err, req, res, next) => {
   // если у ошибки нет статуса, выставляем 500
   const { statusCode = INTERNAL_SERVER_ERROR_STATUS, message } = err;
-  console.log(err, 'err');
   res
     .status(statusCode)
     .send({
