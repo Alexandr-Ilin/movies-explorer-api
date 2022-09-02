@@ -1,3 +1,3 @@
 # movies-explorer-api
 
-### [api.diplom.ilin.nomoredomains.sbs] - сервер 
+###### [сервер](api.diplom.ilin.nomoredomains.sbs) 
