@@ -1,6 +1,8 @@
 const allowedCors = [
   'http://localhost:3000',
   'http://localhost:3001',
+  'http://diplom.ilin.nomoredomains.sbs',
+  'https://diplom.ilin.nomoredomains.sbs',
 ];
 
 const corsOptions = {
