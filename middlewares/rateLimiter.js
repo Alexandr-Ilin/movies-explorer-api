@@ -1,9 +1,10 @@
-const rateLimit = 'express-rate-limit';
+const rateLimit = require('express-rate-limit');
+const { RATE_LIMIT } = require('../utills/consts');
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
-  message: 'Превышен лимит подключений с данного IP-адреса',
+  message: RATE_LIMIT,
 });
 
 module.exports = limiter;
