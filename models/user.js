@@ -2,22 +2,23 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const validator = require('validator');
 
-const UnauthtorizedError = require('../utills/errors/UnauthorizedError');
+const UnauthorizedError = require('../utills/errors/UnauthorizedError');
+const { SCHEMA_VALIDATION_REQUAIRED, SCHEMA_VALIDATION_EMAIL, UNAUTHORIZEB_ERROR_MESSAGE } = require('../utills/consts');
 
 const userSchema = new mongoose.Schema({
   email: {
     type: String,
-    required: [true, 'Поле {PATH} обязательно.'],
+    required: [true, SCHEMA_VALIDATION_REQUAIRED],
     unique: true,
     validate: {
       validator: (v) => validator.isEmail(v),
-      message: 'Формат почты не верен',
+      message: SCHEMA_VALIDATION_EMAIL,
     },
   },
 
   password: {
     type: String,
-    required: [true, 'Поле {PATH} обязательно.'],
+    required: [true, SCHEMA_VALIDATION_REQUAIRED],
     select: false,
   },
 
@@ -25,6 +26,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     minlength: 2,
     maxlength: 30,
+    required: [true, SCHEMA_VALIDATION_REQUAIRED],
   },
 
 }, { versionKey: false });
@@ -33,13 +35,13 @@ userSchema.statics.findUserByCredentials = function (email, password) {
   return this.findOne({ email }).select('+password') // this — это модель User
     .then((user) => {
       if (!user) {
-        throw new UnauthtorizedError('Неправильные почта или пароль');
+        throw new UnauthorizedError(UNAUTHORIZEB_ERROR_MESSAGE);
       }
 
       return bcrypt.compare(password, user.password)
         .then((matched) => {
           if (!matched) {
-            throw new UnauthtorizedError('Неправильные почта или пароль');
+            throw new UnauthorizedError(UNAUTHORIZEB_ERROR_MESSAGE);
           }
 
           return user; // теперь user доступен

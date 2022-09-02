@@ -1,56 +1,57 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+const { SCHEMA_VALIDATION_REQUAIRED, SCHEMA_VALIDATION_URL } = require('../utills/consts');
 
 const userSchema = new mongoose.Schema({
   country: {
     type: String,
-    requaired: [true, 'Поле {PATH} обязательно.'],
+    requaired: [true, SCHEMA_VALIDATION_REQUAIRED],
   },
 
   director: {
     type: String,
-    requaired: [true, 'Поле {PATH} обязательно.'],
+    requaired: [true, SCHEMA_VALIDATION_REQUAIRED],
   },
 
   duration: {
     type: Number,
-    requaired: [true, 'Поле {PATH} обязательно.'],
+    requaired: [true, SCHEMA_VALIDATION_REQUAIRED],
   },
 
   year: {
     type: String,
-    requaired: [true, 'Поле {PATH} обязательно.'],
+    requaired: [true, SCHEMA_VALIDATION_REQUAIRED],
   },
 
   description: {
     type: String,
-    requaired: [true, 'Поле {PATH} обязательно.'],
+    requaired: [true, SCHEMA_VALIDATION_REQUAIRED],
   },
 
   image: {
     type: String,
-    requaired: [true, 'Поле {PATH} обязательно.'],
+    requaired: [true, SCHEMA_VALIDATION_REQUAIRED],
     validate: {
       validator: (v) => validator.isURL(v),
-      message: 'Формат ссылки не верен',
+      message: SCHEMA_VALIDATION_URL,
     },
   },
 
   trailerLink: {
     type: String,
-    requaired: [true, 'Поле {PATH} обязательно.'],
+    requaired: [true, SCHEMA_VALIDATION_REQUAIRED],
     validate: {
       validator: (v) => validator.isURL(v),
-      message: 'Формат ссылки не верен',
+      message: SCHEMA_VALIDATION_URL,
     },
   },
 
   thumbnail: {
     type: String,
-    requaired: [true, 'Поле {PATH} обязательно.'],
+    requaired: [true, SCHEMA_VALIDATION_REQUAIRED],
     validate: {
       validator: (v) => validator.isURL(v),
-      message: 'Формат ссылки не верен',
+      message: SCHEMA_VALIDATION_URL,
     },
   },
 
@@ -68,24 +69,14 @@ const userSchema = new mongoose.Schema({
 
   nameRU: {
     type: String,
-    requaired: [true, 'Поле {PATH} обязательно.'],
+    requaired: [true, SCHEMA_VALIDATION_REQUAIRED],
   },
 
   nameEN: {
     type: String,
-    requaired: [true, 'Поле {PATH} обязательно.'],
+    requaired: [true, SCHEMA_VALIDATION_REQUAIRED],
   },
 
 }, { versionKey: false });
 
 module.exports = mongoose.model('movie', userSchema);
-
-// image — ссылка на постер к фильму. Обязательное поле-строка. Запишите её URL-адресом.
-// trailerLink — ссылка на трейлер фильма. Обязательное поле-строка. Запишите её URL-адресом.
-
-// eslint-disable-next-line max-len
-// thumbnail — миниатюрное изображение постера к фильму. Обязательное поле-строка. Запишите её URL-адресом.
-// owner — _id пользователя, который сохранил фильм. Обязательное поле.
-// movieId — id фильма, который содержится в ответе сервиса MoviesExplorer. Обязательное поле.
-// nameRU — название фильма на русском языке. Обязательное поле-строка.
-// nameEN — название фильма на английском языке. Обязательное поле-строка.

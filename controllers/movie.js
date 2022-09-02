@@ -1,6 +1,13 @@
 const Movie = require('../models/movie');
 
-const { CREATED_STATUS } = require('../utills/consts');
+const {
+  CREATED_STATUS,
+  NOT_FOUND_MOVIE,
+  FORBIDDEN_ERROR_MOVIE,
+  MOVIE_DELETED,
+  NON_CORRECT_ID,
+} = require('../utills/consts');
+
 const BadRequestError = require('../utills/errors/BadRequestError');
 const NotFoundError = require('../utills/errors/NotFoundError');
 const ForbiddenError = require('../utills/errors/ForbiddenError');
@@ -52,20 +59,20 @@ const deleteMovie = (req, res, next) => {
   Movie.findById(req.params.movieId)
     .then((movie) => {
       if (!movie) {
-        next(new NotFoundError('Фильм с таким ID не найден.'));
+        next(new NotFoundError(NOT_FOUND_MOVIE));
         return;
       }
       if (movie.owner.toString() !== req.user._id) {
-        next(new ForbiddenError('Вы можете удалять только свои фильмы'));
+        next(new ForbiddenError(FORBIDDEN_ERROR_MOVIE));
         return;
       }
       Movie.findByIdAndDelete(req.params.movieId)
-        .then(() => res.send({ message: 'Фильм удален' }))
+        .then(() => res.send({ message: MOVIE_DELETED }))
         .catch(next);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(new BadRequestError('Неверный ID фильма'));
+        next(new BadRequestError(NON_CORRECT_ID));
         return;
       }
       next(err);

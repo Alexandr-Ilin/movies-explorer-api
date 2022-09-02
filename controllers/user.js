@@ -1,16 +1,21 @@
-const { NODE_ENV, JWT_SECRET } = process.env;
+// const { NODE_ENV, JWT_SECRET } = process.env;
 
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const {
   CREATED_STATUS,
-  OK_STATUS,
+  EMAIL_REGISTERED,
+  SUCCESSFUL_AUTHORIZACION,
+  NOT_FOUND_USER,
+  NON_CORRECT_ID,
+  SIGN_OUT,
 } = require('../utills/consts');
 
 const ConflictError = require('../utills/errors/ConflictError');
 const BadRequestError = require('../utills/errors/BadRequestError');
 const NotFoundError = require('../utills/errors/NotFoundError');
+const { JWT_SECRET } = require('../utills/config');
 
 const createUser = (req, res, next) => {
   const {
@@ -23,7 +28,7 @@ const createUser = (req, res, next) => {
       email, password: hash, name,
     }))
     .then((data) => {
-      const token = jwt.sign({ _id: data._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
+      const token = jwt.sign({ _id: data._id }, JWT_SECRET, { expiresIn: '7d' });
       res
         .status(CREATED_STATUS)
         .cookie('jwt', token, {
@@ -38,7 +43,7 @@ const createUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.code === 11000) {
-        next(new ConflictError('Данный пользователь зарегистрирован'));
+        next(new ConflictError(EMAIL_REGISTERED));
         return;
       }
       if (err.name === 'ValidationError') {
@@ -53,14 +58,14 @@ const login = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
+      const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '7d' });
       res
-        .status(OK_STATUS)
+        // .status(OK_STATUS)
         .cookie('jwt', token, {
           maxAge: 3600000 * 24 * 7,
           httpOnly: true,
         })
-        .send({ message: 'Вы успешно авторизировались' });
+        .send({ message: SUCCESSFUL_AUTHORIZACION });
     })
     .catch(next);
 };
@@ -80,14 +85,14 @@ const updateUserProfile = (req, res, next) => {
   User.findByIdAndUpdate(req.user._id, { email, name }, { new: true, runValidators: true })
     .then((user) => {
       if (!user) {
-        next(new NotFoundError({ message: 'Пользователь с таким ID не найден.' }));
+        next(new NotFoundError({ message: NOT_FOUND_USER }));
         return;
       }
       res.send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(new BadRequestError('Некоректный ID пользователя.'));
+        next(new BadRequestError(NON_CORRECT_ID));
         return;
       }
       if (err.name === 'ValidationError') {
@@ -96,7 +101,7 @@ const updateUserProfile = (req, res, next) => {
       }
 
       if (err.code === 11000) {
-        next(new ConflictError('Данный пользователь уже существует'));
+        next(new ConflictError('EMAIL_REGISTERED'));
         return;
       }
       next(err);
@@ -104,7 +109,7 @@ const updateUserProfile = (req, res, next) => {
 };
 
 const signOut = (req, res) => {
-  res.clearCookie('jwt').send({ message: 'Вы вышли из аккаунта' });
+  res.clearCookie('jwt').send({ message: SIGN_OUT });
 };
 
 module.exports = {
