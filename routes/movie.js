@@ -1,10 +1,9 @@
 const movieRouter = require('express').Router();
 
-movieRouter.get('/');
-movieRouter.patch('/');
-movieRouter.delete('/_id');
-module.exports = movieRouter;
+const { createMovie, deleteMovie, getMovies } = require('../controllers/movie');
 
-// GET /movies все сохранённые пользователем фильмы;
-// POST /movies создаёт фильм с переданными в теле данными;
-// DELETE /movies/_id удаляет сохранённый фильм по _id;
+movieRouter.get('/', getMovies);
+movieRouter.post('/', createMovie);
+movieRouter.delete('/:movieId', deleteMovie);
+
+module.exports = movieRouter;

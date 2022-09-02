@@ -31,8 +31,8 @@ const userSchema = new mongoose.Schema({
     type: String,
     requaired: [true, 'Поле {PATH} обязательно.'],
     validate: {
-      validator: (v) => validator.isUrl(v),
-      message: 'Формат почты не верен',
+      validator: (v) => validator.isURL(v),
+      message: 'Формат ссылки не верен',
     },
   },
 
@@ -40,8 +40,8 @@ const userSchema = new mongoose.Schema({
     type: String,
     requaired: [true, 'Поле {PATH} обязательно.'],
     validate: {
-      validator: (v) => validator.isUrl(v),
-      message: 'Формат почты не верен',
+      validator: (v) => validator.isURL(v),
+      message: 'Формат ссылки не верен',
     },
   },
 
@@ -49,8 +49,8 @@ const userSchema = new mongoose.Schema({
     type: String,
     requaired: [true, 'Поле {PATH} обязательно.'],
     validate: {
-      validator: (v) => validator.isUrl(v),
-      message: 'Формат почты не верен',
+      validator: (v) => validator.isURL(v),
+      message: 'Формат ссылки не верен',
     },
   },
 
@@ -62,6 +62,7 @@ const userSchema = new mongoose.Schema({
 
   // id фильма, который содержится в ответе сервиса MoviesExplorer
   movieId: {
+    type: String,
     required: true,
   },
 
