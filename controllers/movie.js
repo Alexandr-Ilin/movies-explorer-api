@@ -46,14 +46,34 @@ const createMovie = (req, res, next) => {
     .then((movie) => {
       res.status(CREATED_STATUS).send(movie);
     })
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        next(new BadRequestError(`${Object.values(err.errors).map((error) => error.message).join(' ')}`));
-        return;
-      }
-      next(err);
-    });
-};
+//     .catch((err) => {
+//       const allErrors = Object.values(err.errors);
+//       allErrors.map(function (error) => {
+//         if (error.name === 'CastError') {
+
+//           return next(new BadRequestError(NON_CORRECT_ID));
+
+//         }
+//         if (error.name === 'ValidationError') {
+//           next(new BadRequestError(`${Object.values(err.errors).map((error) => error.type).join(' ')}`));
+//         }
+//       });
+
+//       next(err);
+//     });
+// };
+//     .catch((err) => {
+//       if (err.name === 'CastError') {
+//         console.log('здесь!!!!!!!!!!')
+//         // next(new BadRequestError(NON_CORRECT_ID));
+//         return;
+//       }
+//       if (err.name === 'ValidationError') {
+//         next(new BadRequestError(`${Object.values(err.errors).map((error) => error.type).join(' ')}`));
+//       }
+//       next(err);
+//     });
+// };
 
 const deleteMovie = (req, res, next) => {
   Movie.findById(req.params.movieId)

@@ -3,10 +3,10 @@ const BAD_REQUEST_STATUS = 400;
 const NOT_FOUND_STATUS = 404;
 const INTERNAL_SERVER_ERROR_STATUS = 500;
 
-const SCHEMA_VALIDATION_REQUAIRED = 'Поле {PATH} обязательно.';
+const SCHEMA_VALIDATION_REQUIRED = 'Поле {PATH} обязательно.';
 const SCHEMA_VALIDATION_URL = 'Формат ссылки не верен.';
 const SCHEMA_VALIDATION_EMAIL = 'Формат почты не верен.';
-const UNAUTHORIZEB_ERROR_MESSAGE = 'Неправельные почта или пароль.';
+const UNAUTHORIZED_ERROR_MESSAGE = 'Неправельные почта или пароль.';
 const NOT_FOUND_PAGE = 'Страница не найдена.';
 const NOT_FOUND_USER = 'Пользователь с таким ID не найден.';
 const NOT_FOUND_MOVIE = 'Фильм с таким ID не найден.';
@@ -24,10 +24,10 @@ module.exports = {
   BAD_REQUEST_STATUS,
   NOT_FOUND_STATUS,
   INTERNAL_SERVER_ERROR_STATUS,
-  SCHEMA_VALIDATION_REQUAIRED,
+  SCHEMA_VALIDATION_REQUIRED,
   SCHEMA_VALIDATION_URL,
   SCHEMA_VALIDATION_EMAIL,
-  UNAUTHORIZEB_ERROR_MESSAGE,
+  UNAUTHORIZED_ERROR_MESSAGE,
   NOT_FOUND_PAGE,
   EMAIL_REGISTERED,
   SUCCESSFUL_AUTHORIZACION,

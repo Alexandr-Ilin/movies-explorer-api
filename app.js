@@ -17,12 +17,11 @@ const app = express();
 mongoose.connect(MONGO_PORT);
 
 app.use(helmet());
+app.use(requestLogger);
 app.use(limiter);
 app.use(cors(corsOptions));
-
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(requestLogger);
 app.use(router);
 app.use(errorLogger);
 app.use(errors());

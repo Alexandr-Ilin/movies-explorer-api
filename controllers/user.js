@@ -28,13 +28,8 @@ const createUser = (req, res, next) => {
       email, password: hash, name,
     }))
     .then((data) => {
-      const token = jwt.sign({ _id: data._id }, JWT_SECRET, { expiresIn: '7d' });
       res
         .status(CREATED_STATUS)
-        .cookie('jwt', token, {
-          maxAge: 3600000 * 24 * 7,
-          httpOnly: true,
-        })
         .send({
           _id: data._id,
           email: data.email,
@@ -60,7 +55,6 @@ const login = (req, res, next) => {
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '7d' });
       res
-        // .status(OK_STATUS)
         .cookie('jwt', token, {
           maxAge: 3600000 * 24 * 7,
           httpOnly: true,
@@ -82,7 +76,7 @@ const getMe = (req, res, next) => {
 
 const updateUserProfile = (req, res, next) => {
   const { email, name } = req.body;
-  User.findByIdAndUpdate(req.user._id, { email, name }, { new: true, runValidators: true })
+  User.findByIdAndUpdate(req.user._id, { email, name, }, { new: true, runValidators: true })
     .then((user) => {
       if (!user) {
         next(new NotFoundError({ message: NOT_FOUND_USER }));

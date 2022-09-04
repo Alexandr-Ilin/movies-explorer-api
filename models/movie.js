@@ -1,36 +1,37 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
-const { SCHEMA_VALIDATION_REQUAIRED, SCHEMA_VALIDATION_URL } = require('../utills/consts');
+const { SCHEMA_VALIDATION_REQUIRED, SCHEMA_VALIDATION_URL } = require('../utills/consts');
 
 const userSchema = new mongoose.Schema({
   country: {
     type: String,
-    requaired: [true, SCHEMA_VALIDATION_REQUAIRED],
+    required: [true, SCHEMA_VALIDATION_REQUIRED],
   },
 
   director: {
     type: String,
-    requaired: [true, SCHEMA_VALIDATION_REQUAIRED],
+    required: [true, SCHEMA_VALIDATION_REQUIRED],
   },
 
   duration: {
     type: Number,
-    requaired: [true, SCHEMA_VALIDATION_REQUAIRED],
+    required: [true, SCHEMA_VALIDATION_REQUIRED],
   },
 
   year: {
     type: String,
-    requaired: [true, SCHEMA_VALIDATION_REQUAIRED],
+    required: [true, SCHEMA_VALIDATION_REQUIRED],
   },
 
   description: {
     type: String,
-    requaired: [true, SCHEMA_VALIDATION_REQUAIRED],
+    required: [true, SCHEMA_VALIDATION_REQUIRED],
   },
 
   image: {
+    required: [true, SCHEMA_VALIDATION_REQUIRED],
     type: String,
-    requaired: [true, SCHEMA_VALIDATION_REQUAIRED],
+
     validate: {
       validator: (v) => validator.isURL(v),
       message: SCHEMA_VALIDATION_URL,
@@ -39,7 +40,7 @@ const userSchema = new mongoose.Schema({
 
   trailerLink: {
     type: String,
-    requaired: [true, SCHEMA_VALIDATION_REQUAIRED],
+    required: [true, SCHEMA_VALIDATION_REQUIRED],
     validate: {
       validator: (v) => validator.isURL(v),
       message: SCHEMA_VALIDATION_URL,
@@ -48,7 +49,7 @@ const userSchema = new mongoose.Schema({
 
   thumbnail: {
     type: String,
-    requaired: [true, SCHEMA_VALIDATION_REQUAIRED],
+    required: [true, SCHEMA_VALIDATION_REQUIRED],
     validate: {
       validator: (v) => validator.isURL(v),
       message: SCHEMA_VALIDATION_URL,
@@ -58,23 +59,22 @@ const userSchema = new mongoose.Schema({
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
-    required: true,
+    required: [true, SCHEMA_VALIDATION_REQUIRED],
   },
-
   // id фильма, который содержится в ответе сервиса MoviesExplorer
   movieId: {
-    type: String,
-    required: true,
+    type: Number,
+    required: [true, SCHEMA_VALIDATION_REQUIRED],
   },
 
   nameRU: {
     type: String,
-    requaired: [true, SCHEMA_VALIDATION_REQUAIRED],
+    required: [true, SCHEMA_VALIDATION_REQUIRED],
   },
 
   nameEN: {
     type: String,
-    requaired: [true, SCHEMA_VALIDATION_REQUAIRED],
+    required: [true, SCHEMA_VALIDATION_REQUIRED],
   },
 
 }, { versionKey: false });

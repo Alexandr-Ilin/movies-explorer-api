@@ -38,7 +38,7 @@ const validationUpdateUserProfile = celebrate({
     email: Joi.string()
       .required()
       .email({ tlds: { allow: false } }),
-    password: Joi.string()
+    name: Joi.string()
       .required(),
   }),
 });
@@ -64,10 +64,20 @@ const validationCreateMovie = celebrate({
     thumbnail: Joi.string()
       .required()
       .custom((value) => validateURL(value)),
-    movieId: Joi.string()
+    movieId: Joi.number()
       .required(),
     nameRU: Joi.string()
       .required(),
+    nameEN: Joi.string()
+      .required(),
+  }),
+});
+
+const validationDeleteMovie = celebrate({
+  params: Joi.object().keys({
+    movieId: Joi.string()
+      .hex()
+      .length(24),
   }),
 });
 
@@ -76,4 +86,5 @@ module.exports = {
   validationLogin,
   validationUpdateUserProfile,
   validationCreateMovie,
+  validationDeleteMovie,
 };
