@@ -16,7 +16,6 @@ const NON_CORRECT_ID = 'Не корректный ID.';
 const SIGN_OUT = 'Вы вышли из аккаунта.';
 const SERVER_ERROR = 'На сервере произошла ошибка.';
 const FORBIDDEN_ERROR_MOVIE = 'Вы можете удалять только свои фильмы.';
-const MOVIE_DELETED = 'Фильм удален';
 const RATE_LIMIT = 'Превышен лимит подключений с данного IP-адреса';
 
 module.exports = {
@@ -37,6 +36,5 @@ module.exports = {
   SERVER_ERROR,
   NOT_FOUND_MOVIE,
   FORBIDDEN_ERROR_MOVIE,
-  MOVIE_DELETED,
   RATE_LIMIT,
 };

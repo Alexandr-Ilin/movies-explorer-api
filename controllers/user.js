@@ -76,7 +76,7 @@ const getMe = (req, res, next) => {
 
 const updateUserProfile = (req, res, next) => {
   const { email, name } = req.body;
-  User.findByIdAndUpdate(req.user._id, { email, name, }, { new: true, runValidators: true })
+  User.findByIdAndUpdate(req.user._id, { email, name }, { new: true, runValidators: true })
     .then((user) => {
       if (!user) {
         next(new NotFoundError({ message: NOT_FOUND_USER }));

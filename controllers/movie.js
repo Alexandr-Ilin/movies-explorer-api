@@ -4,7 +4,6 @@ const {
   CREATED_STATUS,
   NOT_FOUND_MOVIE,
   FORBIDDEN_ERROR_MOVIE,
-  MOVIE_DELETED,
   NON_CORRECT_ID,
 } = require('../utills/consts');
 
@@ -46,35 +45,14 @@ const createMovie = (req, res, next) => {
     .then((movie) => {
       res.status(CREATED_STATUS).send(movie);
     })
-//     .catch((err) => {
-//       const allErrors = Object.values(err.errors);
-//       allErrors.map(function (error) => {
-//         if (error.name === 'CastError') {
-
-//           return next(new BadRequestError(NON_CORRECT_ID));
-
-//         }
-//         if (error.name === 'ValidationError') {
-//           next(new BadRequestError(`${Object.values(err.errors).map((error) => error.type).join(' ')}`));
-//         }
-//       });
-
-//       next(err);
-//     });
-// };
-//     .catch((err) => {
-//       if (err.name === 'CastError') {
-//         console.log('здесь!!!!!!!!!!')
-//         // next(new BadRequestError(NON_CORRECT_ID));
-//         return;
-//       }
-//       if (err.name === 'ValidationError') {
-//         next(new BadRequestError(`${Object.values(err.errors).map((error) => error.type).join(' ')}`));
-//       }
-//       next(err);
-//     });
-// };
-
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        next(new BadRequestError(`${Object.values(err.errors).map((error) => error.message).join(' ')}`));
+        return;
+      }
+      next(err);
+    });
+};
 const deleteMovie = (req, res, next) => {
   Movie.findById(req.params.movieId)
     .then((movie) => {
@@ -86,8 +64,8 @@ const deleteMovie = (req, res, next) => {
         next(new ForbiddenError(FORBIDDEN_ERROR_MOVIE));
         return;
       }
-      Movie.findByIdAndDelete(req.params.movieId)
-        .then(() => res.send({ message: MOVIE_DELETED }))
+      movie.remove()
+        .then(() => res.send({ message: movie }))
         .catch(next);
     })
     .catch((err) => {
@@ -98,6 +76,29 @@ const deleteMovie = (req, res, next) => {
       next(err);
     });
 };
+// const deleteMovie = (req, res, next) => {
+//   Movie.findById(req.params.movieId)
+//     .then((movie) => {
+//       if (!movie) {
+//         next(new NotFoundError(NOT_FOUND_MOVIE));
+//         return;
+//       }
+//       if (movie.owner.toString() !== req.user._id) {
+//         next(new ForbiddenError(FORBIDDEN_ERROR_MOVIE));
+//         return;
+//       }
+//       Movie.findByIdAndDelete(req.params.movieId)
+//         .then(() => res.send({ message: MOVIE_DELETED }))
+//         .catch(next);
+//     })
+//     .catch((err) => {
+//       if (err.name === 'CastError') {
+//         next(new BadRequestError(NON_CORRECT_ID));
+//         return;
+//       }
+//       next(err);
+//     });
+// };
 
 const getMovies = (req, res, next) => {
   Movie.find({})
