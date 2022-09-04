@@ -95,7 +95,7 @@ const updateUserProfile = (req, res, next) => {
       }
 
       if (err.code === 11000) {
-        next(new ConflictError('EMAIL_REGISTERED'));
+        next(new ConflictError(EMAIL_REGISTERED));
         return;
       }
       next(err);
