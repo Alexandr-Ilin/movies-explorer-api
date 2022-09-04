@@ -7,8 +7,8 @@ const { createUser, login, signOut } = require('../controllers/user');
 const { validationCreateUser, validationLogin } = require('../middlewares/validation');
 const { NOT_FOUND_PAGE } = require('../utills/consts');
 
-// router.post('/signup', validationCreateUser, createUser);
 router.post('/signup', validationCreateUser, createUser);
+
 router.post('/signin', validationLogin, login);
 
 router.use(auth);
@@ -22,3 +22,5 @@ router.use('*', (req, res, next) => {
 });
 
 module.exports = router;
+// router.post('/signup', validationCreateUser, createUser);
+// router.post('/signup', validationCreateUser, createUser);
