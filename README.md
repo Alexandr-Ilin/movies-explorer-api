@@ -23,7 +23,7 @@
 * mongoose
 * Celebrate
 * Rate Limiter
-* inston
+* Winston
 * Централизованый обработчик ошибок
 * Регистрация доменов
 * Настройка Nginx
