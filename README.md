@@ -32,9 +32,8 @@
 * Деплой на Yandex Cloud
 
 ### Установка зависимостей и запуск приложения локально
-* Развернуть [Фронтенд](https://github.com/Alexandr-Ilin/movies-explorer-frontend/)
-* Клонировать репозиторий ``` movies-explorer-api ```
-* ``` npm i ``` - установка зависимостей
-* ``` npm  run start ``` - запуск приложения на на http://localhost:3000/
+* Клонировать репозиторий `movies-explorer-api`
+* `npm i` - установка зависимостей
+* `npm  run start` - запуск приложения на на http://localhost:3000/
 ---
 [Фронтенд на GitHub](https://github.com/Alexandr-Ilin/movies-explorer-frontend)
